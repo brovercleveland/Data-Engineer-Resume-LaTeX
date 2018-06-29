@@ -62,6 +62,7 @@
 \definecolor{white}{RGB}{255,255,255}
 \definecolor{gray}{HTML}{4D4D4D}
 \definecolor{sidecolor}{HTML}{E7E7E7}
+\definecolor{sidecolor2}{HTML}{C6E3DD}
 \definecolor{mainblue}{HTML}{0E5484}
 \definecolor{maingray}{HTML}{B9B9B9}
 
@@ -74,6 +75,8 @@
 \definecolor{orange}{HTML}{FDA333}
 \definecolor{purple}{HTML}{D3A4F9}
 \definecolor{red}{HTML}{FB4485}
+\definecolor{dred}{HTML}{990033}
+
 \definecolor{blue}{HTML}{6CE0F1}
 \definecolor{pblue}{HTML}{0395DE}
 \definecolor{materialpurple}{HTML}{9C27B0}
@@ -125,6 +128,8 @@
 %	 SIDEBAR DEFINITIONS
 %----------------------------------------------------------------------------------------
 
+
+
 \setlength{\TPHorizModule}{1cm} % Left margin
 \setlength{\TPVertModule}{1cm} % Top margin
 
@@ -154,13 +159,17 @@
 % Command for printing skill progress bars
 \newcommand\programming[1]{ 
 	\renewcommand{\programming}{
+	\tikzset{
+		every picture/.append style={rotate=330},
+	}
 		\begin{tikzpicture}
-        	\node [above right] at (0, 4) {$0 \: LOC \: \arrow{3.2} \: 5000 \: LOC$};
-			\foreach [count=\i] \x/\y in {#1}{
-				\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
-				\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
-				\node [above right] at (0,\i+0.35) {\x};
-			}
+			\begin{scope}[every picture/.append style={reset preactions}]
+				\foreach [count=\i] \x/\y in {#1}{
+					\draw[fill=maingray,maingray] (0,\i*1.1) rectangle (6,\i*1.1+0.4);
+					\draw[fill=white,mainblue](0,\i*1.1) rectangle (\y,\i*1.1+0.4);
+					\node [above right] at (0,\i*1.1+0.35) {\x};
+				}
+			\end{scope}
 		\end{tikzpicture}
 	}
 }
@@ -176,7 +185,7 @@
 
 \newcommand{\makeprofile}{
   \begin{tikzpicture}[remember picture,overlay]
-      \node [rectangle, fill=sidecolor, anchor=north, minimum width=9cm, minimum height=\paperheight+1cm] (box) at (-5cm,0.5cm){};
+      \node [rectangle, fill=sidecolor, anchor=north, minimum width=8.9cm, minimum height=\paperheight+1cm] (box) at (-5cm,0.5cm){};
   \end{tikzpicture}
 
   %------------------------------------------------
@@ -186,13 +195,13 @@
     %------------------------------------------------
     
         \vspace{4mm}
-    {\Huge\color{pblue}\cvname}
+    {\LARGE \color{pblue}\cvname}
     
     \vspace{2mm}
 
     %------------------------------------------------
     
-    {\Large\color{black!80}\cvjobtitle}
+    {\large\color{black!80}\cvjobtitle}
 
     %------------------------------------------------
     
@@ -240,25 +249,31 @@
     \end{tabular}
 
     %------------------------------------------------
-    \vspace{3mm}
+    \vspace{1mm}
+
+   \profilesection{Education}{3cm} 
+   \vspace{1mm}
+        
+        \education    
+    
     \profilesection{Technical Skills}{1.2cm}
     
-    {\large \textbf{Overview}}
-
-	\skills
-        
+    %{\large \textbf{Overview}}
+    
+    \vspace{2mm}
+    
+	\skillslight
+  
         %------------------------------------------------
         
-        \vspace{3mm}
+        \vspace{5mm}
        
-	 {\large \textbf{Programming}} 
+	 %{\large \textbf{Programming}} 
 
-		 \programming
+		 \programminglight
          
-        \vspace{3mm}
-        \profilesection{Education}{3cm} 
-        
-        \education
+        %\vspace{3mm}
+     
       
   \end{textblock}
 }
@@ -275,7 +290,7 @@
 
 \def\@sectioncolor#1#2#3{%
 	{%
-		\color{pblue} #1#2#3%
+		\color{dred} #1#2#3%
 	}%
 }
 
@@ -283,7 +298,7 @@
 \renewcommand{\section}[1]{
   \par\vspace{\parskip}
 	{%
-		\LARGE\headingfont\color{headercolor}%
+		\LARGE\headingfont\color{dred}%
 		\@sectioncolor #1%
 	}
   \par\vspace{1mm}
@@ -359,25 +374,61 @@
 \RequirePackage[left=7.6cm,top=0.1cm,right=1cm,bottom=0.1cm,nohead,nofoot]{geometry}
 
 
+%\usepackage{smartdiagram}
+%\smartdiagramset{
+%    bubble center node font = \footnotesize,
+%    bubble node font = \footnotesize,
+%    % specifies the minimum size of the bubble center node
+%    bubble center node size = 0.5cm,
+%    %  specifies the minimum size of the bubbles
+%    bubble node size = 0.5cm,
+%    % specifies which is the distance among the bubble center node and the other bubbles
+%    distance center/other bubbles = 0.3cm,
+%    % sets the distance from the text to the border of the bubble center node
+%    distance text center bubble = 0.5cm,
+%    % set center bubble color
+%    bubble center node color = pblue,
+%    % define the list of colors usable in the diagram
+%    set color list = {lightgray, materialcyan, orange, green, materialorange, materialteal, materialamber, materialindigo, materialgreen, materiallime},
+%    % sets the opacity at which the bubbles are shown
+%    bubble fill opacity = 0.6,
+%    % sets the opacity at which the bubble text is shown
+%    bubble text opacity = 1,
+%}
 \usepackage{smartdiagram}
+\usetikzlibrary{shapes.geometric,calc}
 \smartdiagramset{
-    bubble center node font = \footnotesize,
-    bubble node font = \footnotesize,
-    % specifies the minimum size of the bubble center node
-    bubble center node size = 0.5cm,
-    %  specifies the minimum size of the bubbles
-    bubble node size = 0.5cm,
-    % specifies which is the distance among the bubble center node and the other bubbles
-    distance center/other bubbles = 0.3cm,
-    % sets the distance from the text to the border of the bubble center node
-    distance text center bubble = 0.5cm,
-    % set center bubble color
-    bubble center node color = pblue,
-    % define the list of colors usable in the diagram
-    set color list = {lightgray, materialcyan, orange, green, materialorange, materialteal, materialamber, materialindigo, materialgreen, materiallime},
-    % sets the opacity at which the bubbles are shown
-    bubble fill opacity = 0.6,
-    % sets the opacity at which the bubble text is shown
-    bubble text opacity = 1,
+ 	/tikz/planet/.append style={regular polygon, regular polygon sides=6},          %%<<-- this
+  	/tikz/satellite/.append style={regular polygon, regular polygon sides=6, outer sep=0},
+  	/tikz/every picture/.append style={rotate=30}, 
+  	/tikz/connection planet satellite/.append style={opacity=0},
+	planet size = 1.8cm,
+	planet text width = 1.8cm,
+	planet font = \normalfont,
+	satellite font = \footnotesize,
+	satellite size = 1.3cm,
+	satellite text width=1.3cm,
+	satellite fill opacity = 1,
+	distance planet-text = 0.01cm,
+	distance planet-satellite = 2.6cm,
+%    bubble node font = \footnotesize,
+%    % specifies the minimum size of the bubble center node
+%    bubble center node size = 0.5cm,
+%    %  specifies the minimum size of the bubbles
+%    bubble node size = 0.5cm,
+%    % specifies which is the distance among the bubble center node and the other bubbles
+%    distance center/other bubbles = 0.3cm,
+%    % sets the distance from the text to the border of the bubble center node
+%    distance text center bubble = 0.5cm,
+%    % set center bubble color
+%    bubble center node color = pblue,
+%    % define the list of colors usable in the diagram
+%    set color list = {lightgray, materialcyan, orange, green, materialorange, materialteal, materialamber, materialindigo, materialgreen, materiallime},
+%    % sets the opacity at which the bubbles are shown
+%    bubble fill opacity = 0.6,
+%    % sets the opacity at which the bubble text is shown
+%    bubble text opacity = 1,
 }
+
+
 
